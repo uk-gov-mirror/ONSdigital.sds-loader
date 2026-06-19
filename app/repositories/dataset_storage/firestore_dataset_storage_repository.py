@@ -54,9 +54,7 @@ class FirestoreDatasetStorageRepository(DatasetStorageRepositoryInterface):
             return None
 
         # Parse into Pydantic Model
-        return DatasetMetadataWithoutId.model_validate(
-            datasets[0].to_dict()
-        )
+        return DatasetMetadataWithoutId.model_validate(datasets[0].to_dict())
 
     def _get_dataset_metadata(self, survey_id: str, period_id: str, version: int) -> DatasetMetadata | None:
         latest_dataset = (
@@ -73,9 +71,7 @@ class FirestoreDatasetStorageRepository(DatasetStorageRepositoryInterface):
         if len(datasets) == 0:
             return None
 
-        return DatasetMetadata.model_validate(
-            datasets[0].to_dict()
-        )
+        return DatasetMetadata.model_validate(datasets[0].to_dict())
 
     def store_dataset(
         self,
@@ -84,7 +80,6 @@ class FirestoreDatasetStorageRepository(DatasetStorageRepositoryInterface):
         unit_data_collection_with_metadata: list[UnitDataset],
         unit_data_identifiers: list[str],
     ):
-
         logger.info("Writing to Firestore in BATCH mode")
         self._store_dataset_with_bulk_writer(
             dataset_id=dataset_id,
@@ -103,11 +98,7 @@ class FirestoreDatasetStorageRepository(DatasetStorageRepositoryInterface):
         new_dataset_document = self.dataset_collection.document(dataset_id)
         units_collection = new_dataset_document.collection("units")
 
-        bulk_writer = self.client.bulk_writer(
-            options=BulkWriterOptions(
-                max_ops_per_second=2500
-            )
-        )
+        bulk_writer = self.client.bulk_writer(options=BulkWriterOptions(max_ops_per_second=2500))
 
         try:
             # Include metadata in bulk

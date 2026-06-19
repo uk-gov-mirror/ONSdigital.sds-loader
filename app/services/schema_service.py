@@ -1,6 +1,9 @@
 import re
 from typing import Protocol
 
+from sds_common.config.config import CONFIG
+from sds_common.models.schema_publish_errors import SchemaPublishError
+
 from app import get_logger
 from app.exceptions.schema_source_invalid_exception import SchemaSourceInvalidException
 
@@ -16,6 +19,15 @@ class PublisherProtocol(Protocol):
     def publish_schema(self, file_name: str): ...
 
 
+class ErrorNotificationProtocol(Protocol):
+    """
+    This protocol defines the interface for sending a notification
+    when an error occurs
+    """
+
+    def send_message(self, error: SchemaPublishError, topic_id: str): ...
+
+
 class SchemaService:
     """
     SchemaService provides a way to publish new schema files.
@@ -25,9 +37,11 @@ class SchemaService:
         self,
         bucket_publisher: PublisherProtocol,
         repository_publisher: PublisherProtocol,
+        error_notification_protocol: ErrorNotificationProtocol,
     ):
         self.bucket_publisher = bucket_publisher
         self.repository_publisher = repository_publisher
+        self.error_notification_protocol = error_notification_protocol
 
     def _publish_single_file(self, file_name: str, publisher: PublisherProtocol):  # noqa
         """
@@ -35,11 +49,14 @@ class SchemaService:
         :param file_name: name of the file to be published
         :param publisher: publisher - the publishing protocol to use to publish the file
         """
+
+        logger.info(f"Starting publishing schema {file_name}")
         try:
             publisher.publish_schema(file_name=file_name)
             logger.info(f"Successfully published schema: {file_name}")
-        except Exception as e:
-            logger.exception(f"Failed to publish schema {file_name}: {e}")
+        except SchemaPublishError as e:
+            logger.exception(e.error_message)
+            self.error_notification_protocol.send_message(e, CONFIG.PUBLISH_SCHEMA_ERROR_TOPIC_ID)
 
     def _filter_github_files(self, files: list[str]) -> list[str]:  # noqa
         """

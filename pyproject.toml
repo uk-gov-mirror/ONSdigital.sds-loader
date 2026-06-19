@@ -1,11 +1,11 @@
 [project]
 name = "sds-loader"
-version = "0.1.17"
+version = "0.2.0"
 description = "A service for loading new SDS schemas and datasets"
 requires-python = "==3.13.*"
 dependencies = [
     "sdx-base>=0.2.9",
-    "sds-common==1.0.18",
+    "sds-common==1.0.35",
     "lagom>=2.7.7",
     "polyfactory>=3.3.0",
     "pydantic-settings>=2.13.1",

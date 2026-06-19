@@ -3,7 +3,7 @@ from typing import Literal, Annotated
 from fastapi import APIRouter, Request
 from fastapi.params import Query
 from lagom.integrations.fast_api import FastApiIntegration
-from sdx_base.models.pubsub import get_message, Message
+from sdx_base.models.pubsub import get_message, Message, get_data
 from starlette.responses import JSONResponse
 
 from app import get_logger
@@ -75,7 +75,9 @@ async def publish_schemas(
         # Publish the new schemas
         schema_service.publish_new_schemas(
             source=source,
-            file_list=[get_file_path_from_bucket_notification(message)] if source.lower() == "bucket" else get_file_paths_from_github_notification(message),
+            file_list=[get_file_path_from_bucket_notification(get_data(message))]
+            if source.lower() == "bucket"
+            else get_file_paths_from_github_notification(get_data(message)),
         )
     except NonCriticalException as e:
         # Return a status 200 (non-critical exception)

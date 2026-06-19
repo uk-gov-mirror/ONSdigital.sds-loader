@@ -24,4 +24,6 @@ class PubsubBroadcaster(DatasetBroadcastInterface):
         self.pubsub_client = PubsubService()
 
     def broadcast(self, dataset_metadata: DatasetMetadata) -> None:
-        self.pubsub_client.publish_message(self.settings.publish_dataset_topic_id, dataset_metadata.model_dump_json(), {})
+        self.pubsub_client.publish_message(
+            self.settings.publish_dataset_topic_id, dataset_metadata.model_dump_json(), {}
+        )

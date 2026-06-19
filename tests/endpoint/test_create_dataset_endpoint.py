@@ -178,7 +178,6 @@ class TestCreateDatasetEndpoint:
         mock_dataset_deletion_repo,
         mock_broadcaster: MockBroadcaster,
         raw_dataset_factory: RawDatasetFactory,
-
     ):
         """
         Test that when the broadcast fails, a 500 error code is returned.

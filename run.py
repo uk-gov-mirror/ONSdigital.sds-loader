@@ -33,7 +33,6 @@ def load_startup_banner() -> str:
 # Basic router configuration
 router_1 = RouterConfig(router, tx_id_getter=txid_not_applicable)
 
-
 # Initialize the FastAPI app with the specified settings, routers, and project root.
 app: FastAPI = initialise(settings=Settings, routers=[router_1], middleware=[TimingMiddleware], proj_root=ROOT)
 

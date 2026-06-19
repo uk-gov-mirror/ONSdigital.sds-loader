@@ -77,7 +77,7 @@ Profiles are determined by the `PROFILE` environment variable. This will default
 
 In order to use Firestore locally, you will need to set up the Firestore emulator. You can do this using Docker. Run the following command to start the Firestore emulator:
 
-You will need to set the envronment variable FIRESTORE_EMULATOR_HOST to instruct the application to connect to the emulator instead of the real Firestore service...
+You will need to set the environment variable FIRESTORE_EMULATOR_HOST to instruct the application to connect to the emulator instead of the real Firestore service...
 
 ```bash
 export FIRESTORE_EMULATOR_HOST=localhost:8080

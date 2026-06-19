@@ -1,0 +1,80 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "test_schema_success.json",
+    "title": "SDS test schema",
+    "type": "object",
+    "properties": {
+      "schema_version": {
+        "const": "test_schema_success",
+        "description": "Version of the schema spec for testing."
+      },
+      "survey_id": {
+        "type": "string",
+        "description": "The identifier for a particular survey",
+        "enum": ["test_survey_id"]
+      },
+      "identifier": {
+        "type": "string",
+        "description": "The unique top-level identifier. This is the reporting unit reference without the check letter appended.",
+        "minLength": 11,
+        "pattern": "^[a-zA-Z0-9]+$",
+        "examples": ["34942807969"]
+      },
+      "items": {
+        "type": "object",
+        "propertyNames": {
+          "pattern": "^[a-z0-9][a-z0-9\\-]*[a-z0-9]$"
+        },
+        "properties": {
+          "local-units": {
+            "type": "array",
+            "description": "The data about each item",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "identifier": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "The unique identifier for the items. This is the local unit reference.",
+                  "examples": ["6122875"]
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Name of the local unit",
+                  "examples": ["SAND REFERRAL INDUSTRIES UK LTD"]
+                },
+                "address": {
+                  "type": "array",
+                  "description": "The fields of the address for the local unit. At least 1 address line will exist.",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "examples": [
+                    [
+                      "SAND & GRAVEL PARK INDUSTRIAL ESTATE",
+                      "CHELTENHAM",
+                      "SWINDON",
+                      "GLOUCESTERSHIRE",
+                      "GL11 1AA"
+                    ]
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "required": ["identifier", "name", "address"]
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": ["local-units"]
+      }
+    },
+    "additionalProperties": false,
+    "required": ["schema_version", "identifier", "items", "survey_id"]
+  }

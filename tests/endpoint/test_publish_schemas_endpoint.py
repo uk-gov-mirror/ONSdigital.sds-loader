@@ -6,7 +6,7 @@ from starlette.testclient import TestClient
 
 from app.routes import DEPS
 from app.services.schema_service import SchemaService
-from tests.conftest import MockPublisher
+from tests.conftest import MockPublisher, MockErrorNotificationProtocol
 
 
 class TestPublishSchemasEndpoint:
@@ -30,7 +30,11 @@ class TestPublishSchemasEndpoint:
         return {"message": message, "subscription": ""}
 
     def test_publish_schemas_to_github_with_all_valid_schemas(
-        self, test_app: FastAPI, mock_repo_publisher: MockPublisher, mock_bucket_publisher: MockPublisher
+        self,
+        test_app: FastAPI,
+        mock_repo_publisher: MockPublisher,
+        mock_bucket_publisher: MockPublisher,
+        mock_error_notifier: MockErrorNotificationProtocol,
     ):
         """
         Test our publish schemas endpoint (to GitHub)
@@ -46,6 +50,7 @@ class TestPublishSchemasEndpoint:
             test_container[SchemaService] = SchemaService(
                 repository_publisher=mock_repo_publisher,
                 bucket_publisher=mock_bucket_publisher,
+                error_notification_protocol=mock_error_notifier,
             )
 
             # Create fake files to simulate new added schemas sent to loader
@@ -71,7 +76,11 @@ class TestPublishSchemasEndpoint:
             assert len(mock_bucket_publisher.published_schemas) == 0
 
     def test_publish_schemas_to_bucket_with_all_valid_schemas(
-        self, test_app: FastAPI, mock_repo_publisher: MockPublisher, mock_bucket_publisher: MockPublisher
+        self,
+        test_app: FastAPI,
+        mock_repo_publisher: MockPublisher,
+        mock_bucket_publisher: MockPublisher,
+        mock_error_notifier: MockErrorNotificationProtocol,
     ):
         """
         Test our publish schemas endpoint with a single
@@ -86,6 +95,7 @@ class TestPublishSchemasEndpoint:
             test_container[SchemaService] = SchemaService(
                 repository_publisher=mock_repo_publisher,
                 bucket_publisher=mock_bucket_publisher,
+                error_notification_protocol=mock_error_notifier,
             )
 
             # Create fake files to simulate new added schemas sent to loader
@@ -109,7 +119,11 @@ class TestPublishSchemasEndpoint:
             assert len(mock_repo_publisher.published_schemas) == 0
 
     def test_publish_schemas_to_github_with_some_invalid_filenames(
-        self, test_app: FastAPI, mock_repo_publisher: MockPublisher, mock_bucket_publisher: MockPublisher
+        self,
+        test_app: FastAPI,
+        mock_repo_publisher: MockPublisher,
+        mock_bucket_publisher: MockPublisher,
+        mock_error_notifier: MockErrorNotificationProtocol,
     ):
         """
         Test our publish schemas endpoint (to GitHub)
@@ -129,6 +143,7 @@ class TestPublishSchemasEndpoint:
             test_container[SchemaService] = SchemaService(
                 repository_publisher=mock_repo_publisher,
                 bucket_publisher=mock_bucket_publisher,
+                error_notification_protocol=mock_error_notifier,
             )
 
             # Create fake files to simulate new added schemas sent to loader
