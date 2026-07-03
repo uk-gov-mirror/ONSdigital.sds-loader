@@ -100,7 +100,7 @@ async def publish_schemas(
     )
 
 
-@router.get("/events/dataset/create")
+@router.post("/events/dataset/create")
 async def create_dataset(dataset_service: DatasetService = DEPS.depends(DatasetService)):
     """
     This endpoint handles creating a dataset

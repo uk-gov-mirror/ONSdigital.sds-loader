@@ -67,7 +67,7 @@ class TestCreateDatasetEndpoint:
             client = TestClient(test_app)
 
             # Make the get request to the endpoint
-            response = client.get(
+            response = client.post(
                 "/events/dataset/create",
             )
 
@@ -115,7 +115,7 @@ class TestCreateDatasetEndpoint:
             client = TestClient(test_app)
 
             # Make the get request to the endpoint
-            response = client.get(
+            response = client.post(
                 "/events/dataset/create",
             )
 
@@ -163,7 +163,7 @@ class TestCreateDatasetEndpoint:
             client = TestClient(test_app)
 
             # Make the get request to the endpoint
-            response = client.get(
+            response = client.post(
                 "/events/dataset/create",
             )
 
@@ -229,7 +229,7 @@ class TestCreateDatasetEndpoint:
             client = TestClient(test_app)
 
             # Make the get request to the endpoint
-            response = client.get(
+            response = client.post(
                 "/events/dataset/create",
             )
 
