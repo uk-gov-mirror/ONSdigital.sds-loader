@@ -64,7 +64,7 @@ class FirestoreDatasetDeletionRepository(DatasetDeletionRepositoryInterface):
             document_reference.update({"status": status.value})
 
             # If the status is deleted, then mark a timestamp
-            if status == "deleted":
+            if status == DeleteStatus.DELETED:
                 utc_dt = datetime.now(timezone.utc)  # UTC time
                 dt = utc_dt.astimezone()  # local time
                 timestamp = dt.strftime("%Y-%m-%dT%H:%M:%SZ")

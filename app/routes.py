@@ -135,7 +135,7 @@ async def create_dataset(dataset_service: DatasetService = DEPS.depends(DatasetS
     )
 
 
-@router.get("/events/dataset/delete")
+@router.post("/events/dataset/delete")
 async def delete_dataset(dataset_service: DatasetService = DEPS.depends(DatasetService)):
     """
     This endpoint deletes a dataset

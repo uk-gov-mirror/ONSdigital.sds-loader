@@ -3,6 +3,7 @@ from typing import Protocol, Optional
 
 from google.cloud.storage import Blob
 
+from app.exceptions.dataset_validation_exception import DatasetValidationException
 from app.interfaces.dataset_source_repository_interface import DatasetSourceRepositoryInterface
 from app.models.dataset import RawDataset
 
@@ -60,7 +61,10 @@ class BucketDatasetSourceRepository(DatasetSourceRepositoryInterface):
         json_content = json.loads(data_bytes.decode("utf-8"))
 
         # Create the RawDataset and return
-        return RawDataset.model_validate(json_content)
+        try:
+            return RawDataset.model_validate(json_content)
+        except Exception as e:
+            raise DatasetValidationException(f"Failed to validate dataset from file {file_name}: {e}")
 
     def delete_raw_data(self, file_name: str) -> None:
         # Delete from Bucket

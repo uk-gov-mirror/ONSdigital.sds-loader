@@ -60,7 +60,7 @@ class FirestoreDatasetStorageRepository(DatasetStorageRepositoryInterface):
         latest_dataset = (
             self.dataset_collection.where("survey_id", "==", survey_id)
             .where("period_id", "==", period_id)
-            .where("version", "==", version)
+            .where("sds_dataset_version", "==", version)
             .limit(1)
             .stream()
         )

@@ -28,7 +28,6 @@ class DatasetSourceRepositoryInterface(ABC):
 
         :param file_name: The name of the file to return
         :returns: The raw content of a file in the source repository or None if not found
-
         :raises DatasetValidationException if the contents does not conform to RawDataset
         """
         ...
