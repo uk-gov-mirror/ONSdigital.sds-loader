@@ -1,6 +1,6 @@
 [project]
 name = "sds-loader"
-version = "0.2.3"
+version = "0.2.4"
 description = "A service for loading new SDS schemas and datasets"
 requires-python = "==3.13.*"
 dependencies = [
